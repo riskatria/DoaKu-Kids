@@ -101,18 +101,17 @@ Content-Type: application/json
 
 **Method:** `GET`
 
-**URL:** `/api/v1/prayers`
+**URL:** `/api`
 
-**Deskripsi:** Mengambil seluruh data doa.
+**Deskripsi:** Mengambil seluruh data doa dari Public Doa API.
 
-**Autentikasi Diperlukan:** `Ya`
+**Autentikasi Diperlukan:** `Tidak`
 
-**Sumber:** `Internal System`
+**Sumber:** `Third-Party API — Public Doa API`
 
 **Request Headers:**
 
 ```http
-Authorization: Bearer <token>
 Content-Type: application/json
 ```
 
@@ -121,24 +120,22 @@ Content-Type: application/json
 **Response Sukses (`200 OK`):**
 
 ```json
-{
-    "status": "success",
-    "data": [
-        {
-            "id": 1,
-            "title": "Doa Sebelum Makan"
-        }
-    ]
-}
-```
-
-**Response Gagal:**
-
-```json
-{
-    "status": "error",
-    "message": "Unauthorized"
-}
+[
+    {
+        "id": "1",
+        "doa": "Doa Sebelum Makan",
+        "ayat": "اللَّهُمَّ بَارِكْ لَنَا فِيْمَا رزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
+        "latin": "Allahumma baarika lanaa fiimaa razaqtana waqinaa 'adzaa ban-naar",
+        "artinya": "Ya Allah, berkahilah kami pada apa yang telah Engkau karuniakan kepada kami dan peliharalah kami dari siksa neraka."
+    },
+    {
+        "id": "2",
+        "doa": "Doa Setelah Makan",
+        "ayat": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
+        "latin": "Alhamdu lillahil-ladzi ath'amanaa wa saqaanaa wa ja'alanaa muslimiin",
+        "artinya": "Segala puji bagi Allah yang memberi kami makan dan minum serta menjadikan kami memeluk agama Islam."
+    }
+]
 ```
 
 ---
@@ -147,18 +144,17 @@ Content-Type: application/json
 
 **Method:** `GET`
 
-**URL:** `/api/v1/prayers/{id}`
+**URL:** `/api/{id}`
 
-**Deskripsi:** Mengambil detail doa berdasarkan ID.
+**Deskripsi:** Mengambil detail doa spesifik berdasarkan ID dari Public Doa API.
 
-**Autentikasi Diperlukan:** `Ya`
+**Autentikasi Diperlukan:** `Tidak`
 
-**Sumber:** `Internal System`
+**Sumber:** `Third-Party API — Public Doa API`
 
 **Request Headers:**
 
 ```http
-Authorization: Bearer <token>
 Content-Type: application/json
 ```
 
@@ -168,22 +164,106 @@ Content-Type: application/json
 
 ```json
 {
-    "status": "success",
-    "data": {
-        "title": "Doa Sebelum Makan",
-        "arabic_text": "...",
-        "latin_text": "...",
-        "translation": "..."
-    }
+    "id": "1",
+    "doa": "Doa Sebelum Makan",
+    "ayat": "اللَّهُمَّ بَارِكْ لَنَا فِيْمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
+    "latin": "Allahumma baarika lanaa fiimaa razaqtana waqinaa 'adzaa ban-naar",
+    "artinya": "Ya Allah, berkahilah kami pada apa yang telah Engkau karuniakan kepada kami dan peliharalah kami dari siksa neraka."
 }
 ```
 
-**Response Gagal:**
+**Response Gagal (`404 Not Found`):**
 
 ```json
 {
     "status": "error",
-    "message": "Data tidak ditemukan"
+    "message": "Doa tidak ditemukan"
+}
+```
+
+---
+
+## Mendapatkan Doa Spesifik Berdasarkan Nama
+
+**Method:** `GET`
+
+**URL:** `/api/doa/{doa}`
+
+**Deskripsi:** Mengambil doa spesifik berdasarkan kata kunci nama doa (tanpa kata "doa" di depannya, misalnya cukup ketik "tidur" atau "makan") dari Public Doa API.
+
+**Autentikasi Diperlukan:** `Tidak`
+
+**Sumber:** `Third-Party API — Public Doa API`
+
+**Request Headers:**
+
+```http
+Content-Type: application/json
+```
+
+**Request Body:** `-`
+
+**Response Sukses (`200 OK`):**
+
+```json
+[
+    {
+        "id": "5",
+        "doa": "Doa Sebelum Tidur",
+        "ayat": "بِاسْمِكَ اللَّهُمَّ أَحْيَا وَبِاسْمِكَ أَمُوتُ",
+        "latin": "Bismikallahumma ahya wa bismika amut",
+        "artinya": "Dengan nama-Mu ya Allah aku hidup, dan dengan nama-Mu aku mati."
+    },
+    {
+        "id": "6",
+        "doa": "Doa Bangun Tidur",
+        "ayat": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+        "latin": "Alhamdu lillahil-ladzi ahyaanaa ba'da maa amaatanaa wa ilaihin-nusyur",
+        "artinya": "Segala puji bagi Allah yang menghidupkan kami kembali setelah mematikan kami dan kepada-Nya kami bangkit."
+    }
+]
+```
+
+**Response Gagal (`404 Not Found`):**
+
+```json
+{
+    "status": "error",
+    "message": "Doa tidak ditemukan"
+}
+```
+
+---
+
+## Mendapatkan Doa Acak (Random Doa)
+
+**Method:** `GET`
+
+**URL:** `/api/doa/v1/random`
+
+**Deskripsi:** Mengambil satu doa secara acak (random) dari Public Doa API.
+
+**Autentikasi Diperlukan:** `Tidak`
+
+**Sumber:** `Third-Party API — Public Doa API`
+
+**Request Headers:**
+
+```http
+Content-Type: application/json
+```
+
+**Request Body:** `-`
+
+**Response Sukses (`200 OK`):**
+
+```json
+{
+    "id": "5",
+    "doa": "Doa Sebelum Tidur",
+    "ayat": "بِاسْمِكَ اللَّهُمَّ أَحْيَا وَبِاسْمِكَ أَمُوتُ",
+    "latin": "Bismikallahumma ahya wa bismika amut",
+    "artinya": "Dengan nama-Mu ya Allah aku hidup, dan dengan nama-Mu aku mati."
 }
 ```
 
@@ -195,7 +275,7 @@ Content-Type: application/json
 
 **URL:** `/api/v1/favorites`
 
-**Deskripsi:** Menambahkan doa ke daftar favorit pengguna.
+**Deskripsi:** Menambahkan doa ke daftar favorit pengguna pada sistem internal.
 
 **Autentikasi Diperlukan:** `Ya`
 
@@ -212,7 +292,7 @@ Content-Type: application/json
 
 ```json
 {
-    "prayer_id": 1
+    "prayer_id": "1"
 }
 ```
 
@@ -230,7 +310,7 @@ Content-Type: application/json
 ```json
 {
     "status": "error",
-    "message": "Data tidak valid"
+    "message": "Data tidak valid atau unauthorized"
 }
 ```
 
@@ -242,7 +322,7 @@ Content-Type: application/json
 
 **URL:** `/api/v1/memorization-list`
 
-**Deskripsi:** Menambahkan doa ke daftar yang ingin dihafal.
+**Deskripsi:** Menambahkan doa ke daftar hafalan pengguna pada sistem internal.
 
 **Autentikasi Diperlukan:** `Ya`
 
@@ -259,7 +339,7 @@ Content-Type: application/json
 
 ```json
 {
-    "prayer_id": 1
+    "prayer_id": "1"
 }
 ```
 
@@ -277,137 +357,6 @@ Content-Type: application/json
 ```json
 {
     "status": "error",
-    "message": "Data tidak valid"
-}
-```
-
----
-
-## Menampilkan Doa Acak
-
-**Method:** `GET`
-
-**URL:** `/api/v1/random-prayer`
-
-**Deskripsi:** Mengambil satu doa secara acak untuk ditampilkan pada halaman utama.
-
-**Autentikasi Diperlukan:** `Ya`
-
-**Sumber:** `Internal System`
-
-**Request Headers:**
-
-```http
-Authorization: Bearer <token>
-Content-Type: application/json
-```
-
-**Request Body:** `-`
-
-**Response Sukses (`200 OK`):**
-
-```json
-{
-    "status": "success",
-    "data": {
-        "id": 5,
-        "title": "Doa Sebelum Tidur"
-    }
-}
-```
-
-**Response Gagal:**
-
-```json
-{
-    "status": "error",
-    "message": "Data doa tidak tersedia"
-}
-```
-
----
-
-## Admin Menambah Data Doa
-
-**Method:** `POST`
-
-**URL:** `/api/v1/prayers`
-
-**Deskripsi:** Menambahkan data doa baru ke sistem.
-
-**Autentikasi Diperlukan:** `Ya (Admin)`
-
-**Sumber:** `Internal System`
-
-**Request Headers:**
-
-```http
-Authorization: Bearer <token>
-Content-Type: application/json
-```
-
-**Request Body:**
-
-```json
-{
-    "title": "Doa Sebelum Belajar",
-    "arabic_text": "...",
-    "latin_text": "...",
-    "translation": "..."
-}
-```
-
-**Response Sukses (`201 Created`):**
-
-```json
-{
-    "status": "success",
-    "message": "Doa berhasil ditambahkan"
-}
-```
-
----
-
-## Admin Mengubah Data Doa
-
-**Method:** `PUT`
-
-**URL:** `/api/v1/prayers/{id}`
-
-**Deskripsi:** Mengubah data doa yang sudah ada.
-
-**Autentikasi Diperlukan:** `Ya (Admin)`
-
-**Sumber:** `Internal System`
-
-**Response Sukses (`200 OK`):**
-
-```json
-{
-    "status": "success",
-    "message": "Data doa berhasil diperbarui"
-}
-```
-
----
-
-## Admin Menghapus Data Doa
-
-**Method:** `DELETE`
-
-**URL:** `/api/v1/prayers/{id}`
-
-**Deskripsi:** Menghapus data doa dari sistem.
-
-**Autentikasi Diperlukan:** `Ya (Admin)`
-
-**Sumber:** `Internal System`
-
-**Response Sukses (`200 OK`):**
-
-```json
-{
-    "status": "success",
-    "message": "Data doa berhasil dihapus"
+    "message": "Data tidak valid atau unauthorized"
 }
 ```
