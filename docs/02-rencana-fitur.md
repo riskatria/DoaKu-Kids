@@ -48,11 +48,11 @@ Menampilkan satu doa secara acak (random) pada halaman beranda aplikasi setiap k
 
 ---
 
-## Fitur 5 — Jadwal Sholat Real-time
+## Fitur 5 — Daftar Favorit & Progress Hafalan
 
 **Role Penanggung Jawab:** Frontend & Backend
 
-**Sumber Data:** Third-Party API — Al-Adhan API
+**Sumber Data:** Internal System (Database MySQL)
 
 **Deskripsi & Ekspektasi:**
-Menampilkan jadwal sholat lima waktu secara real-time berdasarkan lokasi pengguna saat ini atau kota tertentu. Fitur ini mengonsumsi data dari API eksternal (Al-Adhan) untuk ditampilkan di antarmuka frontend sebagai fitur tambahan edukasi ibadah harian anak.
+Memungkinkan pengguna (anak-anak/orang tua) untuk menandai doa tertentu sebagai favorit untuk akses cepat, serta memasukkan doa ke dalam list progres hafalan. Status progres hafalan dapat diubah (misalnya dari "sedang dihafal" menjadi "sudah hafal") untuk memotivasi anak dalam menghafal doa sehari-hari.

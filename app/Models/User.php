@@ -29,4 +29,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the favorites of the user.
+     */
+    public function favorites(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    /**
+     * Get the memorization lists of the user.
+     */
+    public function memorizations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(MemorizationList::class);
+    }
 }
