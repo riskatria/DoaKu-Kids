@@ -719,6 +719,9 @@
                     <a href="{{ route('memorization.index') }}" class="nav-link {{ request()->routeIs('memorization.*') ? 'active' : '' }}">
                         📖 Hafalan
                     </a>
+                    <span class="nav-link" style="cursor: default; color: var(--text-secondary); font-weight: 600; pointer-events: none;">
+                        👤 {{ Auth::user()->name }}
+                    </span>
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
                         <button type="submit" class="btn-nav-outline">
