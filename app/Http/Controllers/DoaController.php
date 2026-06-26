@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\DoaServiceInterface;
 use App\Contracts\FavoriteServiceInterface;
+use App\Contracts\MemorizationServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,11 +12,16 @@ class DoaController extends Controller
 {
     protected DoaServiceInterface $doaService;
     protected FavoriteServiceInterface $favoriteService;
+    protected MemorizationServiceInterface $memorizationService;
 
-    public function __construct(DoaServiceInterface $doaService, FavoriteServiceInterface $favoriteService)
-    {
+    public function __construct(
+        DoaServiceInterface $doaService, 
+        FavoriteServiceInterface $favoriteService,
+        MemorizationServiceInterface $memorizationService
+    ) {
         $this->doaService = $doaService;
         $this->favoriteService = $favoriteService;
+        $this->memorizationService = $memorizationService;
     }
 
     /**
@@ -27,14 +33,20 @@ class DoaController extends Controller
         $randomPrayer = $this->doaService->getRandomPrayer();
 
         $favoriteIds = [];
+        $memorizationIds = [];
         if (Auth::check()) {
             $favoriteIds = $this->favoriteService
                 ->getFavoritesByUser(Auth::id())
                 ->pluck('prayer_id')
                 ->toArray();
+                
+            $memorizationIds = $this->memorizationService
+                ->getMemorizationsByUser(Auth::id())
+                ->pluck('prayer_id')
+                ->toArray();
         }
 
-        return view('welcome', compact('prayers', 'randomPrayer', 'favoriteIds'));
+        return view('welcome', compact('prayers', 'randomPrayer', 'favoriteIds', 'memorizationIds'));
     }
 
     /**
@@ -48,11 +60,15 @@ class DoaController extends Controller
         }
 
         $isFavorited = false;
+        $isMemorized = false;
         if (Auth::check()) {
             $isFavorited = $this->favoriteService->isFavorited(Auth::id(), $id);
+            $isMemorized = $this->memorizationService->getMemorizationsByUser(Auth::id())
+                ->where('prayer_id', $id)
+                ->isNotEmpty();
         }
 
-        return view('detail', compact('prayer', 'isFavorited'));
+        return view('detail', compact('prayer', 'isFavorited', 'isMemorized'));
     }
 
     /**
@@ -68,9 +84,15 @@ class DoaController extends Controller
         $prayers = $this->doaService->searchPrayers($query);
 
         $favoriteIds = [];
+        $memorizationIds = [];
         if (Auth::check()) {
             $favoriteIds = $this->favoriteService
                 ->getFavoritesByUser(Auth::id())
+                ->pluck('prayer_id')
+                ->toArray();
+                
+            $memorizationIds = $this->memorizationService
+                ->getMemorizationsByUser(Auth::id())
                 ->pluck('prayer_id')
                 ->toArray();
         }
@@ -80,6 +102,7 @@ class DoaController extends Controller
             'randomPrayer' => null,
             'searchQuery' => $query,
             'favoriteIds' => $favoriteIds,
+            'memorizationIds' => $memorizationIds,
         ]);
     }
 }

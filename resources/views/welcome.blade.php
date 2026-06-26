@@ -238,7 +238,10 @@
                     </a>
 
                     @auth
-                        @php $isFav = in_array((string)($prayer['id'] ?? ''), array_map('strval', $favoriteIds ?? [])); @endphp
+                        @php 
+                            $isFav = in_array((string)($prayer['id'] ?? ''), array_map('strval', $favoriteIds ?? [])); 
+                            $isMem = in_array((string)($prayer['id'] ?? ''), array_map('strval', $memorizationIds ?? []));
+                        @endphp
                         <form method="POST" action="{{ route('favorites.toggle') }}" class="inline">
                             @csrf
                             <input type="hidden" name="prayer_id" value="{{ $prayer['id'] ?? '' }}">
@@ -249,11 +252,27 @@
                                 {{ $isFav ? '❤️' : '🤍' }}
                             </button>
                         </form>
+                        
+                        <form method="POST" action="{{ route('memorization.add') }}" class="inline">
+                            @csrf
+                            <input type="hidden" name="prayer_id" value="{{ $prayer['id'] ?? '' }}">
+                            <input type="hidden" name="prayer_title" value="{{ $prayer['doa'] ?? '' }}">
+                            <button type="submit"
+                                class="{{ $isMem ? 'bg-amber-500 text-white shadow-[0_4px_0_#d97706]' : 'bg-amber-50 text-amber-600 shadow-[0_4px_0_#fde68a]' }} font-black px-5 py-3.5 rounded-2xl hover:bg-amber-500 hover:text-white hover:shadow-[0_6px_0_#d97706] transition-all text-lg flex items-center justify-center gap-1 hover:-translate-y-1"
+                                title="{{ $isMem ? 'Sudah ada di hafalan' : 'Tambah ke hafalan' }}">
+                                📖
+                            </button>
+                        </form>
                     @else
                         <a href="{{ route('login') }}"
                             class="bg-rose-50 text-rose-600 font-black px-5 py-3.5 rounded-2xl hover:bg-rose-500 hover:text-white hover:shadow-[0_6px_0_#be123c] shadow-[0_4px_0_#fecdd3] transition-all text-lg flex items-center justify-center gap-1 hover:-translate-y-1"
                             title="Login untuk menambah favorit">
                             🤍
+                        </a>
+                        <a href="{{ route('login') }}"
+                            class="bg-amber-50 text-amber-600 font-black px-5 py-3.5 rounded-2xl hover:bg-amber-500 hover:text-white hover:shadow-[0_6px_0_#d97706] shadow-[0_4px_0_#fde68a] transition-all text-lg flex items-center justify-center gap-1 hover:-translate-y-1"
+                            title="Login untuk menambah hafalan">
+                            📖
                         </a>
                     @endauth
                 </div>
@@ -278,6 +297,27 @@
 
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
+        @endif
+
+        @if(session('success'))
+        <div id="toast" class="fixed bottom-10 right-10 z-50 bg-white px-6 py-4 rounded-2xl shadow-2xl border-4 border-green-400 transform transition-all duration-500 translate-y-0 opacity-100 flex items-center gap-4">
+            <div class="text-3xl">🎉</div>
+            <div>
+                <h4 class="font-bold text-gray-800 text-lg">Berhasil!</h4>
+                <p class="text-gray-600 font-medium">{{ session('success') }}</p>
+            </div>
+            <button onclick="document.getElementById('toast').style.display='none'" class="text-gray-400 hover:text-gray-600 ml-4 cursor-pointer text-xl">✖</button>
+        </div>
+        <script>
+            setTimeout(() => {
+                const toast = document.getElementById('toast');
+                if (toast) {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(20px)';
+                    setTimeout(() => toast.remove(), 500);
+                }
+            }, 3000);
+        </script>
         @endif
     </body>
 </html>

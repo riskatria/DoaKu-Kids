@@ -46,9 +46,17 @@ class MemorizationController extends Controller
         $prayerId = $request->prayer_id;
         $prayerTitle = $request->prayer_title;
 
+        $exists = \App\Models\MemorizationList::where('user_id', $userId)
+            ->where('prayer_id', $prayerId)
+            ->exists();
+
+        if ($exists) {
+            return back()->with('success', 'Doa sudah pernah ditambahkan ke daftar hafalan.');
+        }
+
         $this->memorizationService->addToMemorization($userId, $prayerId, $prayerTitle);
 
-        return redirect()->route('memorization.index')->with('success', 'Doa berhasil ditambahkan ke daftar hafalan.');
+        return back()->with('success', 'Doa berhasil ditambahkan ke daftar hafalan.');
     }
 
     /**
