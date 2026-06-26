@@ -2,5 +2,12 @@
   "$schema": "https://schema.railpack.com",
   "packages": {
     "php": "8.4"
-  }
+  },
+"buildAptPackages": [
+    "bison",
+    "re2c",
+    "build-essential",
+    "libxml2-dev",
+    "libsqlite3-dev"
+  ]
 }
