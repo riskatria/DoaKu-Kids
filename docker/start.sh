@@ -11,7 +11,7 @@ fi
 
 # Jalankan migrasi database (berpotensi membuat file log atau memodifikasi DB sebagai root)
 echo "Running database migrations..."
-php artisan migrate --force
+php artisan migrate --force --seed
 
 # Pastikan permission folder storage dan database benar untuk SQLite & Laravel SETELAH migrasi
 chown -R www-data:www-data /var/www/storage /var/www/database /var/www/bootstrap/cache
