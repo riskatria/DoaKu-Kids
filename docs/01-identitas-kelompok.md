@@ -10,6 +10,20 @@
 
 **Repositori:** https://github.com/fathiatulizzati/DoaKu-Kids
 
+**Link web: ** https://doaku-kids-production.up.railway.app/
+
+**Akun Web: ** 
+
+1. Akun Admin
+Email: admin@example.com
+Password: password
+
+2. Akun User 
+Email: user@example.com
+Password: password
+
+
+
 ---
 
 ## Anggota & Role
