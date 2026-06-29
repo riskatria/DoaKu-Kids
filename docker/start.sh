@@ -20,6 +20,10 @@ php artisan migrate --force
 # Jalankan PHP-FPM di background
 php-fpm -D
 
+# Gunakan PORT dari Railway (default ke 80 jika tidak diset)
+PORT=${PORT:-80}
+sed -i "s/listen 80;/listen ${PORT};/g" /etc/nginx/sites-available/default
+
 # Jalankan Nginx di foreground agar container tetap hidup
-echo "Starting Nginx..."
+echo "Starting Nginx on port ${PORT}..."
 nginx -g "daemon off;"
