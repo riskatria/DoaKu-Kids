@@ -21,10 +21,10 @@ chmod -R 775 /var/www/storage /var/www/database /var/www/bootstrap/cache
 PORT=${PORT:-80}
 sed -i "s/listen 80;/listen ${PORT};/g" /etc/nginx/sites-available/default
 
-# Jalankan Nginx di background
-echo "Starting Nginx on port ${PORT}..."
-nginx
-
-# Jalankan PHP-FPM di foreground agar container tetap hidup
+# Jalankan PHP-FPM di background menggunakan shell operator
 echo "Starting PHP-FPM..."
-php-fpm
+php-fpm &
+
+# Jalankan Nginx di foreground agar log error Nginx terlihat dan container tetap hidup
+echo "Starting Nginx on port ${PORT}..."
+nginx -g "daemon off;"
