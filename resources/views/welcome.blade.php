@@ -24,36 +24,36 @@
             <div class="absolute bottom-20 right-10 w-48 h-48 bg-white rounded-full mix-blend-overlay filter blur-xl opacity-60"></div>
             <div class="absolute top-1/2 left-1/3 w-24 h-24 bg-white rounded-full mix-blend-overlay filter blur-xl opacity-50"></div>
         </div>
-        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
+        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 relative z-50">
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
                         <a href="{{ route('home') }}"
-                            class="inline-block px-3 py-1.5 text-[#1b1b18] dark:text-[#EDEDEC] text-sm leading-normal hover:underline">
+                            class="inline-block px-4 py-2 bg-white/70 hover:bg-white text-gray-800 font-bold rounded-full shadow-sm backdrop-blur-md transition-all">
                             🏠 Beranda
                         </a>
                         <a href="{{ route('favorites.index') }}"
-                            class="inline-block px-3 py-1.5 text-[#1b1b18] dark:text-[#EDEDEC] text-sm leading-normal hover:underline">
+                            class="inline-block px-4 py-2 bg-white/70 hover:bg-white text-gray-800 font-bold rounded-full shadow-sm backdrop-blur-md transition-all">
                             ❤️ Favorit
                         </a>
                         <a href="{{ route('memorization.index') }}"
-                            class="inline-block px-3 py-1.5 text-[#1b1b18] dark:text-[#EDEDEC] text-sm leading-normal hover:underline">
+                            class="inline-block px-4 py-2 bg-white/70 hover:bg-white text-gray-800 font-bold rounded-full shadow-sm backdrop-blur-md transition-all">
                             📖 Hafalan
                         </a>
-                        <span class="inline-block px-3 py-1.5 text-[#1b1b18] dark:text-[#EDEDEC] text-sm leading-normal font-semibold">
+                        <span class="inline-block px-4 py-2 bg-yellow-100 text-yellow-800 font-bold rounded-full shadow-sm">
                             👤 {{ Auth::user()->name }}
                         </span>
                         <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                             @csrf
                             <button type="submit"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal cursor-pointer bg-transparent">
+                                class="inline-block px-5 py-2 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer border-none">
                                 👋 Logout
                             </button>
                         </form>
                     @else
                         <a
                             href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                            class="inline-block px-6 py-2 bg-white/80 hover:bg-white text-blue-600 font-bold rounded-full shadow-md backdrop-blur-md transition-all border border-blue-100"
                         >
                             Login
                         </a>
@@ -61,7 +61,7 @@
                         @if (Route::has('register'))
                             <a
                                 href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                class="inline-block px-6 py-2 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
                                 Register
                             </a>
                         @endif
